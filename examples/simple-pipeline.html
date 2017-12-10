@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pipelines board example</title>
+  <link rel="stylesheet" href="../src/pipelines-board.css"/>
+</head>
+<body style="padding: 23px;">
+<h1>Example of a pipeline</h1>
+<div class="pipelines-board" id="myBoard">
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job1">
+      <div class="pipelines-board__phase__job__title">My database</div>
+    </div>
+  </div>
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job2">
+      <div class="pipelines-board__phase__job__title">Pull data</div>
+    </div>
+  </div>
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job3">
+      <div class="pipelines-board__phase__job__title">Data stream</div>
+    </div>
+  </div>
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job4">
+      <div class="pipelines-board__phase__job__title">Messages router</div>
+    </div>
+  </div>
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job5">
+      <div class="pipelines-board__phase__job__title">Firehose to S3</div>
+    </div>
+    <div class="pipelines-board__phase__job" id="job6">
+      <div class="pipelines-board__phase__job__title">Firehose to Redshift</div>
+    </div>
+  </div>
+  <div class="pipelines-board__phase">
+    <div class="pipelines-board__phase__job" id="job7">
+      <div class="pipelines-board__phase__job__title">S3 storage</div>
+    </div>
+    <div class="pipelines-board__phase__job" id="job8">
+      <div class="pipelines-board__phase__job__title">S3 errors</div>
+    </div>
+    <div class="pipelines-board__phase__job" id="job9">
+      <div class="pipelines-board__phase__job__title">Redshift</div>
+    </div>
+    <div class="pipelines-board__phase__job" id="job10">
+      <div class="pipelines-board__phase__job__title">Redshift load errors</div>
+    </div>
+  </div>
+</div>
+
+<script src="../src/pipelines-board.js"></script>
+
+<script>
+  var board = new PipelinesBoard("myBoard", {
+    markersFillColor: '#c2c2c2'
+  });
+
+  function drawLines() {
+    board.clean();
+
+    let arrowLineOptions = {
+      lineColor: '#c2c2c2',
+      tension: 1,
+      startOn: "right middle",
+      endOn: "left middle",
+      markerStart: "circle",
+      markerEnd: "arrowRight"
+    };
+
+    board.arrowLine(arrowLineOptions).from("job1").to("job2");
+    board.arrowLine(arrowLineOptions).from("job2").to("job3");
+    board.arrowLine(arrowLineOptions).from("job3").to("job4");
+    board.arrowLine(arrowLineOptions).from("job4").to("job5");
+    board.arrowLine(arrowLineOptions).from("job4").to("job6");
+    board.arrowLine(arrowLineOptions).from("job5").to("job7");
+    board.arrowLine(arrowLineOptions).from("job5").to("job8");
+    board.arrowLine(arrowLineOptions).from("job6").to("job9");
+    board.arrowLine(arrowLineOptions).from("job6").to("job10");
+  }
+
+  drawLines();
+  window.onresize = drawLines;
+</script>
+</body>
+</html>
